@@ -9,28 +9,23 @@ export class Favorites {
   }
 
   load() {
-    this.entries = [
-      {
-        login: 'maykbrito',
-        name: 'Mayk Brito',
-        public_repos: '76',
-        followers: '120000'
-      },
+    this.entries = JSON.parse(localStorage.getItem('@github-favorites:')) || []
 
-      {
-        login: 'LucasEduChaves',
-        name: 'Luca Eduardo Chaves',
-        public_repos: '76',
-        followers: '120000'
-      }
-    ]
+    console.log(this.entries)
   }
+
+  // Msm resultado só mais simplificado, pois o valor não muda o dado é o msm
+  // delete(user) {
+  //   this.entries = this.entries
+  //   .filter(entry => entry.login !== user.login)
+  // }
 
   delete(user) {
     const filteredEntries = this.entries
-    .filter(entry => entry.login !== entry.login)
+    .filter(entry => entry.login !== user.login)
 
-      console.log(filteredEntries)
+    this.entries = filteredEntries
+    this.update()
   }
 }
 
@@ -40,8 +35,7 @@ export class FavoritesView extends Favorites {
   constructor(root) {
     super(root)
 
-    this.tbody = this.root.querySelector
-    ('table tbody')
+    this.tbody = this.root.querySelector('table tbody')
 
     this.update()
   }
@@ -62,8 +56,7 @@ export class FavoritesView extends Favorites {
       // Usar "onclick" somente quando não tiver varios eventos.
       // Se tiver varios eventos ".addEventListener"
       row.querySelector('.remove').onclick = () => {
-        const isOk = confirm
-        ('Tem certeza que deseja deletar essa linha?')
+        const isOk = confirm('Tem certeza que deseja deletar essa linha?')
         if(isOk) {
           this.delete(user)
         }
