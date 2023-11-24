@@ -38,20 +38,26 @@ export class Favorites {
   // Função assincrona
   async add(username) {
     try {
-        const user = await GithubUser.search(username)
 
-        if(user.login === undefined) {
-          throw new Error('Usuário não encontrado!')
-        }
+      const userExists = this.entries.find(entry => entry.login === username)
 
-        this.entries = [user, ...this.entries]
-        this.update()
-        this.save()
+      if(userExists) {
+        throw new Error('Usuário já cadastrado')
+      }
+
+      const user = await GithubUser.search(username)
+
+      if(user.login === undefined) {
+        throw new Error('Usuário não encontrado!')
+      }
+
+      this.entries = [user, ...this.entries]
+      this.update()
+      this.save()
 
     } catch(error) {
-      alert(error.messege)
-    } 
-    
+      alert(error.message)
+    }
   }
 
   // Msm resultado só mais simplificado, pois o valor não muda o dado é o msm
