@@ -1,19 +1,4 @@
-  export class GithubUser {
-    static search(username) {
-      const endpoint = `https://api.github.com/users/${username}`
-    
-    return fetch(endpoint)
-    .then(data => data.json())
-    .then(
-      ({ login, name, public_repos, followers}) => (
-        {
-          login,
-          name,
-          public_repos,
-          followers
-        }))
-    }
-  }
+import { GithubUser } from "./GithubUser.js"
 
 // Classe que vai conter a lógica dos dados
 // como os dados serãp estruturados
@@ -106,6 +91,7 @@ export class FavoritesView extends Favorites {
       
       row.querySelector('.user img').src =`https://github.com/${user.login}.png`
       row.querySelector('.user img').alt = `Imagem de ${user.name}`
+      row.querySelector('.user a').href  = `https://github.com/${user.login}`
       row.querySelector('.user p').textContent  = user.name
       row.querySelector('.user span').textContent  = user.login
       row.querySelector('.repositories').textContent  = user.public_repos
